@@ -19,6 +19,18 @@ die();
 ?>
 <body>
 <div class="container">
+<div class="col-md-11">
+
+<h2 class="title">Olá <i><?php echo $_SESSION['nome']; ?></i>, seja bem-
+vindo(a)!</h2>
+<div class="container">
+<a href="cad_anuncio.php" class="btn btn-primary">Novo Anúncio</a>
+<a href="index_logado.php?meus_anuncios=1" class="btn btn-success">Meus Anúncios</a>
+<a href="index_logado.php?meus_anuncios=0" class="btn btn-info">Todos Anúncios</a>
+<a href="logout.php" class="btn btn-dark">Sair</a>
+</div>
+
+<div class="container">
 <?php if (!empty($_GET['msgErro'])) { ?>
 <div class="alert alert-warning" role="alert">
 <?php echo $_GET['msgErro']; ?>
@@ -64,11 +76,7 @@ die($e->getMessage());
 }
 ?>
 </div>
-<div class="container">
-<div class="col-md-11">
 
-<h2 class="title">Olá <i><?php echo $_SESSION['nome']; ?></i>, seja bem-
-vindo(a)!</h2>
 <?php if (!empty($anuncios)) { ?>
 <!-- Aqui que será montada a tabela com a relação de anúncios!! -->
 <div class="container">
@@ -119,12 +127,6 @@ class="btn btn-danger">Excluir</a>
 </div>
 <?php } ?>
 </div>
-</div>
-<div class="container">
-<a href="cad_anuncio.php" class="btn btn-primary">Novo Anúncio</a>
-<a href="index_logado.php?meus_anuncios=1" class="btn btn-success">Meus Anúncios</a>
-<a href="index_logado.php?meus_anuncios=0" class="btn btn-info">Todos Anúncios</a>
-<a href="logout.php" class="btn btn-dark">Sair</a>
 </div>
 
 </body>
