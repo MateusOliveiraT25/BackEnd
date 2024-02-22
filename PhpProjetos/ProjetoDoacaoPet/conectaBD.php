@@ -30,4 +30,27 @@ $pdo->exec($sql);
 echo "Falha ao conectar ao banco de dados. <br/>";
 die($e->getMessage());
 }
+
+// Criação da tabela 'anuncio' se ela não existir
+try {
+    $sqlCreateTable = "CREATE TABLE IF NOT EXISTS anuncio (
+        id SERIAL PRIMARY KEY,
+        fase VARCHAR(255),
+        tipo VARCHAR(255),
+        porte VARCHAR(255),
+        sexo VARCHAR(255),
+        pelagem_cor VARCHAR(255),
+        raca VARCHAR(255),
+        observacao TEXT,
+        email_usuario VARCHAR(255)
+    )";
+
+    $stmtCreateTable = $pdo->prepare($sqlCreateTable);
+    $stmtCreateTable->execute();
+
+    echo "Tabela 'anuncio' criada com sucesso!";
+} catch (PDOException $e) {
+    die("Erro ao criar tabela 'anuncio': " . $e->getMessage());
+}
+
 ?>
