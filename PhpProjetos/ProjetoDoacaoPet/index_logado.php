@@ -40,7 +40,7 @@ vindo(a)!</h2>
 <div class="alert alert-success" role="alert">
 <?php echo $_GET['msgSucesso']; ?>
 </div>
-<?php } 
+<?php }   
 
 $anuncios = array();
 if (!empty($_GET['meus_anuncios']) && $_GET['meus_anuncios'] == 1) {

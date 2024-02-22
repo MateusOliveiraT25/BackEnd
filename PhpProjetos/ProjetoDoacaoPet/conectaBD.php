@@ -14,7 +14,7 @@ try {
 // errmode
 $pdo = new PDO("pgsql:host=$endereco;port=5432;dbname=$banco", $admin, $senha,
 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-echo "Conectado no banco de dados!!!";
+
 $sql = "CREATE TABLE IF NOT EXISTS usuarios (
     nome VARCHAR(100) NOT NULL,
     data_nascimento DATE NOT NULL,
@@ -48,7 +48,7 @@ try {
     $stmtCreateTable = $pdo->prepare($sqlCreateTable);
     $stmtCreateTable->execute();
 
-    echo "Tabela 'anuncio' criada com sucesso!";
+  
 } catch (PDOException $e) {
     die("Erro ao criar tabela 'anuncio': " . $e->getMessage());
 }
