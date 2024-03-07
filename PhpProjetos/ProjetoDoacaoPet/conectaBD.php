@@ -14,7 +14,7 @@ try {
 // errmode
 $pdo = new PDO("pgsql:host=$endereco;port=5432;dbname=$banco", $admin, $senha,
 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-echo "Conectado no banco de dados!!!";
+
 $sql = "CREATE TABLE IF NOT EXISTS usuarios (
     nome VARCHAR(100) NOT NULL,
     data_nascimento DATE NOT NULL,
@@ -30,4 +30,27 @@ $pdo->exec($sql);
 echo "Falha ao conectar ao banco de dados. <br/>";
 die($e->getMessage());
 }
+
+// Criação da tabela 'anuncio' se ela não existir
+try {
+    $sqlCreateTable = "CREATE TABLE IF NOT EXISTS anuncio (
+        id SERIAL PRIMARY KEY,
+        fase VARCHAR(255),
+        tipo VARCHAR(255),
+        porte VARCHAR(255),
+        sexo VARCHAR(255),
+        pelagem_cor VARCHAR(255),
+        raca VARCHAR(255),
+        observacao TEXT,
+        email_usuario VARCHAR(255)
+    )";
+
+    $stmtCreateTable = $pdo->prepare($sqlCreateTable);
+    $stmtCreateTable->execute();
+
+  
+} catch (PDOException $e) {
+    die("Erro ao criar tabela 'anuncio': " . $e->getMessage());
+}
+
 ?>
