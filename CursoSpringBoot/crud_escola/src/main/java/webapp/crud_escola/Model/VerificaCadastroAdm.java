@@ -3,14 +3,16 @@ package webapp.crud_escola.Model;
 import java.io.Serializable;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 @Entity
-public class VerificarCadastroAdm implements Serializable{
+public class VerificaCadastroAdm implements Serializable{
     //atributos
-    @id
+
+    @Id
     private String cpf;
     private String nome;
-    //metodos
+
     public String getCpf() {
         return cpf;
     }
@@ -23,5 +25,6 @@ public class VerificarCadastroAdm implements Serializable{
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
+
+                                                                                                                                                                          
 }

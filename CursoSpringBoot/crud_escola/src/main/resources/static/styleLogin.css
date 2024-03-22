@@ -1,0 +1,30 @@
+/* styleLogin.css */
+
+body {
+    background-color: #f8f9fa; /* Cor de fundo */
+}
+
+.login-container {
+    margin-top: 50px; /* Espaçamento superior */
+}
+
+.login-title {
+    color: #333; /* Cor do título */
+}
+
+.t-grid {
+    text-align: center;
+}
+
+.btn-cadastrar {
+    background-color: #28a745; /* Cor verde */
+    color: #fff; /* Cor do texto */
+    border-color: #28a745; /* Cor da borda */
+}
+
+.btn-cadastrar:hover {
+    background-color: #218838; /* Cor verde mais escura ao passar o mouse */
+    border-color: #218838; /* Cor da borda ao passar o mouse */
+}
+
+/* Outros estilos conforme necessário */

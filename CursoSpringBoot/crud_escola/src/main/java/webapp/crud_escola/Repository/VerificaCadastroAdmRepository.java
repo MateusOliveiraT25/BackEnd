@@ -2,12 +2,13 @@ package webapp.crud_escola.Repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import webapp.crud_escola.Model.VerificarCadastroAdm;
+import webapp.crud_escola.Model.VerificaCadastroAdm;
 
-public interface VerificaCadastroAdmRepository extends CrudRepository<VerificarCadastroAdm, String> {
-    //metodos  busca cpf
-    VerificarCadastroAdm findbyCpf(String cpf);
-  // metodo busca nome
-    VerificarCadastroAdm findbyNome(String nome);
-    
+
+public interface VerificaCadastroAdmRepository extends CrudRepository<VerificaCadastroAdm, String> {
+    // Método de busca por CPF
+    VerificaCadastroAdm findByCpf(String cpf);
+  
+    // Método de busca por nome
+    VerificaCadastroAdm findByNome(String nome);
 }
