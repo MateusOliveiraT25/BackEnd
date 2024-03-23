@@ -1,0 +1,13 @@
+/* styleCadastro.css */
+
+.btn-cadastrar {
+    background-color: #4b61df; /* Cor amarela */
+    color: #fffcfc; /* Cor do texto */
+    border-color: #e7e6e1; /* Cor da borda */
+}
+
+.btn-cadastrar:hover {
+    background-color: #1114c5; /* Cor amarela mais escura ao passar o mouse */
+   
+    color: #fffcfc; /* Cor do texto */
+}

@@ -1,21 +1,33 @@
 package webapp.crud_escola.Controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import webapp.crud_escola.Model.Administrador;
+import webapp.crud_escola.Repository.AdministradorRepository;
+import webapp.crud_escola.Repository.VerificaCadastroAdmRepository;
+
+
 
 @Controller
 public class AdministradorController {
+    @Autowired
+    private AdministradorRepository ar ;
+
+    @Autowired
+    private VerificaCadastroAdmRepository vcar;
+
+    @PostMapping("/cad-adm")
+    public String postCadAdm (Administrador adm) {
+        String cpfVerificar = vcar.findByCpf(adm.getCpf()).getCpf();
+        if (cpfVerificar == adm.getCpf()) {
+            
+        }
+        ar.save(adm);
+        return "/login-adm";
+    }
     
-     //método
-    @GetMapping("/login-adm")
-    public ModelAndView abrirLoginAdm() {
-        ModelAndView mv = new ModelAndView("login-adm");
-        return mv;
-    }
-    @GetMapping("/cad-adm")
-    public ModelAndView cadAdm() {
-        ModelAndView mv = new ModelAndView("cad-adm");
-        return mv;
-    }
+    
 }

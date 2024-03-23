@@ -17,6 +17,17 @@ public class indexController {
         ModelAndView mv = new ModelAndView("index");
         return mv;
     }
+     //método
+     @GetMapping("/login-adm")
+     public ModelAndView abrirLoginAdm() {
+         ModelAndView mv = new ModelAndView("login-adm");
+         return mv;
+     }
+     @GetMapping("/cad-adm")
+     public ModelAndView cadAdm() {
+         ModelAndView mv = new ModelAndView("cad-adm");
+         return mv;
+     }
 
     }
 
