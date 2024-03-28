@@ -23,9 +23,9 @@ public class AdministradorController {
     public String postCadAdm (Administrador adm) {
         String cpfVerificar = vcar.findByCpf(adm.getCpf()).getCpf();
         if (cpfVerificar == adm.getCpf()) {
-            
+            ar.save(adm);  
         }
-        ar.save(adm);
+       
         return "/login-adm";
     }
     

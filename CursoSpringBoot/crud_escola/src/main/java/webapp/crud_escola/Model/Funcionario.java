@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Administrador implements Serializable {
+public class Funcionario implements Serializable {
     @Id
     private String cpf;
     private String nome;

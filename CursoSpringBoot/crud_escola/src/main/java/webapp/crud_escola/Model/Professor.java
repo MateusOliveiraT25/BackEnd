@@ -6,13 +6,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Administrador implements Serializable {
+
+public class Professor implements Serializable {
     @Id
     private String cpf;
     private String nome;
     private String email;
     private String senha;
 
+
+    
     public String getCpf() {
         return cpf;
     }

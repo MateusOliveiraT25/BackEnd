@@ -17,6 +17,12 @@ public class indexController {
         ModelAndView mv = new ModelAndView("index");
         return mv;
     }
+
+    @GetMapping("/contato")
+    public ModelAndView PageContato() {
+        ModelAndView mv = new ModelAndView("contato");
+        return mv;
+    }
      //método
      @GetMapping("/login-adm")
      public ModelAndView abrirLoginAdm() {
@@ -29,5 +35,40 @@ public class indexController {
          return mv;
      }
 
+     @GetMapping("/login-prof")
+     public ModelAndView abrirLoginProfessor() {
+         ModelAndView mv = new ModelAndView("login-prof");
+         return mv;
+     }
+
+     @GetMapping("/cad-prof")
+     public ModelAndView cadProfessor() {
+         ModelAndView mv = new ModelAndView("cad-prof");
+         return mv;
+     }
+
+     @GetMapping("/login-func")
+     public ModelAndView abrirLoginFuncionario() {
+         ModelAndView mv = new ModelAndView("login-func");
+         return mv;
+     }
+
+     @GetMapping("/cad-func")
+     public ModelAndView cadFuncionario() {
+         ModelAndView mv = new ModelAndView("cad-func");
+         return mv;
+     }
+
+     @GetMapping("/login-aluno")
+     public ModelAndView abrirLoginAluno() {
+         ModelAndView mv = new ModelAndView("login-aluno");
+         return mv;
+     }
+
+     @GetMapping("/cad-aluno")
+     public ModelAndView cadAluno() {
+         ModelAndView mv = new ModelAndView("cad-aluno");
+         return mv;
+     }
     }
 
