@@ -1,25 +1,23 @@
-body, html {
-    height: 100%; /* Necessário para a altura total */
-    margin: 0; /* Remove a margem padrão */
-}
 
-/* Garante que o contêiner principal ocupe toda a altura e use Flexbox para centralização */
 body {
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    flex-direction: column; /* Organiza os itens em coluna */
     background-color: #f8f9fa; /* Cor de fundo */
 }
 
-/* Ajuste adicional para garantir que a centralização não afete a barra de menu */
-.login-container {
-    width: 100%; /* Ajusta a largura */
-    max-width: 400px; /* Largura máxima do formulário */
-    margin-top: -50px; /* Ajuste conforme necessário para compensar a altura do cabeçalho */
+.container {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
-/* Se estiver usando o Bootstrap, pode precisar ajustar o z-index do navbar se ele se sobrepor incorretamente ao conteúdo */
-.navbar {
-    z-index: 1020; /* Apenas um exemplo, ajuste conforme necessário */
+h1 {
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color:#007bff ; /* Personalize a cor conforme desejado */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color:#00ffaa; /* Cor mais escura ao passar o mouse */
+    border-color: #00ffaa;
 }
