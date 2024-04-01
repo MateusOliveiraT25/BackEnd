@@ -40,7 +40,7 @@ public class AdministradorController  {
       
         return mv;
     }
-    @PostMapping("acesso-adm")
+    @PostMapping("interna-adm")
     public ModelAndView acessoAdmLogin(@RequestParam String cpf,
                                         @RequestParam String senha) {
         ModelAndView mv = new ModelAndView("interna-adm");
