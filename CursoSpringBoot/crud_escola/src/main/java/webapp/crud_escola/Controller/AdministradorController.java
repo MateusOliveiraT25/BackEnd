@@ -40,7 +40,7 @@ public ModelAndView postCadAdm(Administrador adm) {
         ModelAndView mv =  new ModelAndView("interna-adm");//página interna de acesso
         
         boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
-        boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
+        boolean acessoSenha = senha.equals(ar.findByCpf(senha).getSenha());
         if(acessoCPF && acessoSenha){
             String mensagem = "Login Realizado com sucesso";
             System.out.println(mensagem);
