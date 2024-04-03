@@ -20,49 +20,42 @@ public class AdministradorController  {
     private AdministradorRepository ar ;
     @Autowired
     private VerificaCadastroAdmRepository vcar;
+@PostMapping("/cad-adm")
+public ModelAndView postCadAdm(Administrador adm) {
+    ModelAndView mv = new ModelAndView("login-adm");
+    boolean verificaCpf = vcar.existsById(adm.getCpf());
 
-    @PostMapping("/cad-adm")
-    public ModelAndView postCadAdm (Administrador adm) {
-        boolean verificaCpf = vcar.existsById(adm.getCpf());
-
-  ModelAndView mv = new ModelAndView("login-adm");
-        if (verificaCpf) {
-            ar.save(adm);
-            String mensagem = "Cadastro Realizado com sucesso";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-           
-        }else{
-            String mensagem = "Cadastro não realizado . . .";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-        }
-      
-        return mv;
+    if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
+        ar.save(adm);
+        mv.addObject("msg", "Cadastro Realizado com sucesso");
+    } else {
+        mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
     }
-    @PostMapping("acesso-adm")
+    return mv;
+}
+
+@PostMapping("acesso-adm")
     public ModelAndView acessoAdmLogin(@RequestParam String cpf,
-                                        @RequestParam String senha) {
-        ModelAndView mv = new ModelAndView("interna-adm");
-    
-        Administrador administrador = ar.findByCpf(cpf);
-    
-        if (administrador != null && administrador.getSenha().equals(senha)) {
-            String mensagem = "Login realizado com sucesso";
+                                       @RequestParam String senha) {
+        ModelAndView mv =  new ModelAndView("interna-adm");//página interna de acesso
+        
+        boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
+        boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
+        if(acessoCPF && acessoSenha){
+            String mensagem = "Login Realizado com sucesso";
+            System.out.println(mensagem);
             acessoInternoAdm = true;
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "verde");
+        }else{
+            String mensagem = "Login Não Efetuado";
             System.out.println(mensagem);
             mv.addObject("msg", mensagem);
-        } else {
-            String mensagem = "CPF ou senha incorretos. Login não efetuado";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "vermelho");
         }
-    
         return mv;
     }
-    
-
-    @GetMapping("/interna-adm")
+    @GetMapping("interna-adm")
     public String acessoPageInternaAdm() {
         ModelAndView mv =  new ModelAndView();
         String acesso= "";
