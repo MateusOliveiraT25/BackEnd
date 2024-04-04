@@ -9,11 +9,8 @@
                 <li><a href="/login-adm"><i class="fas fa-user-tie"></i> Administradores</a></li>
                 <li><a href="/login-func"><i class="fas fa-users"></i> Funcionários</a></li>
                 <li><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
-                <!-- Verifica se há um usuário logado -->
-                <th:block th:if="${session.usuario_id != null}">
-                    <li><span><i class="fas fa-user"></i> <span th:text="${session.usuario_nome}"></span></span></li>
-                    <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-                </th:block>
+                <li th:if="${session.usuario_id != null}"><span th:text="${session.usuario_nome}"></span></li>
+                <li th:if="${session.usuario_id != null}"><a href="/logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
             </ul>
         </nav>
     </div>
