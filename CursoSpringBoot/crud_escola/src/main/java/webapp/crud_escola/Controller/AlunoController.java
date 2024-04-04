@@ -34,13 +34,13 @@ public class AlunoController {
     return mv;
 }
 @PostMapping("acesso-aluno")
-public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam String senha) {
+public ModelAndView acessoAlunoLogin(@RequestParam String cpf, @RequestParam String senha) {
     ModelAndView mv = new ModelAndView();
     Aluno aluno = ar.findByCpf(cpf);
 
     if (aluno != null) {
-        boolean acessoCPF = cpf.equals(adm.getCpf());
-        boolean acessoSenha = senha.equals(adm.getSenha());
+        boolean acessoCPF = cpf.equals(aluno.getCpf());
+        boolean acessoSenha = senha.equals(aluno.getSenha());
 
         if (acessoCPF && acessoSenha) {
             String mensagem = "Login Realizado com sucesso";
