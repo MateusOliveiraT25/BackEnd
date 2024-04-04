@@ -3,6 +3,9 @@ package webapp.crud_escola.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import webapp.crud_escola.Model.Administrador;
 import webapp.crud_escola.Repository.AdministradorRepository;
 import webapp.crud_escola.Repository.VerificaCadastroAdmRepository;
@@ -15,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdministradorController  {
-    boolean acessoInternoAdm = false;
     @Autowired
     private AdministradorRepository ar ;
     @Autowired
@@ -36,7 +38,7 @@ public ModelAndView postCadAdm(Administrador adm) {
     return mv;
 }
 @PostMapping("acesso-adm")
-public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam String senha) {
+public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam String senha, HttpServletRequest request) {
     ModelAndView mv = new ModelAndView();
     Administrador adm = ar.findByCpf(cpf);
 
@@ -47,7 +49,12 @@ public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam Strin
         if (acessoCPF && acessoSenha) {
             String mensagem = "Login Realizado com sucesso";
             System.out.println(mensagem);
-            acessoInternoAdm = true;
+
+            // Adicionar usuário à sessão
+            HttpSession session = request.getSession();
+            session.setAttribute("usuario_nome", adm.getNome());
+            session.setAttribute("usuario_cpf", adm.getCpf());
+
             mv.setViewName("redirect:/interna-adm");
         } else {
             String mensagem = "Login Não Efetuado";
@@ -68,11 +75,12 @@ public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam Strin
     return mv;
 }
 
-
-
 @GetMapping("interna-adm")
-public String acessoPageInternaAdm() {
+public String acessoPageInternaAdm(HttpServletRequest request) {
     ModelAndView mv = new ModelAndView();
+    HttpSession session = request.getSession();
+    boolean acessoInternoAdm = session.getAttribute("usuario_cpf") != null;
+
     String acesso = "";
     if (acessoInternoAdm) {
         acesso = "interna-adm";
