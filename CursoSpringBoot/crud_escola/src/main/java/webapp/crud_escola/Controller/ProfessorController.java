@@ -24,7 +24,7 @@ public class ProfessorController {
     private VerificaCadastroProfessorRepository vcar;
 
     @PostMapping("/cad-prof")
-     public ModelAndView postCadFunc (Professor prof) {
+     public ModelAndView postCadProf (Professor prof) {
        ModelAndView mv = new ModelAndView("login-prof");
     boolean verificaCpf = vcar.existsById(prof.getCpf());
 
@@ -40,31 +40,42 @@ public class ProfessorController {
 
 
 @PostMapping("acesso-prof")
-public ModelAndView acessoAdmLogin(@RequestParam String cpf,
-        @RequestParam String senha) {
-    ModelAndView mv = new ModelAndView();// página interna de acesso
+public ModelAndView acessoProfLogin(@RequestParam String cpf, @RequestParam String senha) {
+    ModelAndView mv = new ModelAndView();
+    Professor prof = ar.findByCpf(cpf);
 
-    boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
-    boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
-    if(acessoCPF && acessoSenha){
-        String mensagem = "Login Realizado com sucesso";
-        System.out.println(mensagem);
-        acessoInternoProf = true;
-        mv.setViewName("redirect:/interna-prof");
+    if (prof != null) {
+        boolean acessoCPF = cpf.equals(prof.getCpf());
+        boolean acessoSenha = senha.equals(prof.getSenha());
+
+        if (acessoCPF && acessoSenha) {
+            String mensagem = "Login Realizado com sucesso";
+            System.out.println(mensagem);
+            acessoInternoProf = true;
+            mv.setViewName("redirect:/interna-prof");
+        } else {
+            String mensagem = "Login Não Efetuado";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "vermelho");
+            mv.setViewName("login-prof");
+        }
     } else {
-        String mensagem = "Login Não Efetuado";
+        // Tratamento para CPF não cadastrado
+        String mensagem = "CPF não cadastrado ou dados incorretos";
         System.out.println(mensagem);
         mv.addObject("msg", mensagem);
         mv.addObject("classe", "vermelho");
-        mv.setViewName("login-adm");
+        mv.setViewName("login-prof");
     }
+
     return mv;
 }
 
 
 
 @GetMapping("interna-prof")
-public String acessoPageInternaAdm() {
+public String acessoPageInternaProf() {
     ModelAndView mv = new ModelAndView();
     String acesso = "";
     if (acessoInternoProf) {
@@ -80,4 +91,3 @@ public String acessoPageInternaAdm() {
     return acesso;
 }
 }
-
