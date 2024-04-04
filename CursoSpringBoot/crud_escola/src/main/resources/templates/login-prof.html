@@ -19,22 +19,22 @@
     <div class="login-container">
 
         <h2 class="login-title">Login Professores</h2>
-        <form action="/login" method="POST">
+        <form action="/acesso-prof" method="POST">
             <div class="mb-3">
-                <label for="username" class="form-label">Usuário</label>
-                <input type="text" class="form-control" id="username" name="username" required>
+                <label for="cpf" class="form-label">CPF</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" required>
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="senha" class="form-label">Senha</label>
+                <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
             <div class="d-grid">
                 <button type="submit" class="btn btn-primary">Entrar</button>
-                
             </div>
         </form>
-        <div class="t-grid text-center"> <!-- Adicione a classe text-center para centralizar -->
-            <a href="cad-prof"><button  class="btn btn-primary">Cadastrar-se</button>
+        
+        <div class="text-center mt-3">
+            <a href="/cad-prof"><button class="btn btn-primary">Cadastrar-se</button></a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
