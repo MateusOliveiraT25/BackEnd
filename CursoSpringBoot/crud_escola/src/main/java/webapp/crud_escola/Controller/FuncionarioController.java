@@ -41,31 +41,42 @@ public class FuncionarioController {
 
 
 @PostMapping("acesso-func")
-public ModelAndView acessoAdmLogin(@RequestParam String cpf,
-        @RequestParam String senha) {
-    ModelAndView mv = new ModelAndView();// página interna de acesso
+public ModelAndView acessoFuncLogin(@RequestParam String cpf, @RequestParam String senha) {
+    ModelAndView mv = new ModelAndView();
+    Funcionario func = ar.findByCpf(cpf);
 
-    boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
-    boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
-    if(acessoCPF && acessoSenha){
-        String mensagem = "Login Realizado com sucesso";
-        System.out.println(mensagem);
-        acessoInternoFunc = true;
-        mv.setViewName("redirect:/interna-func");
+    if (func != null) {
+        boolean acessoCPF = cpf.equals(func.getCpf());
+        boolean acessoSenha = senha.equals(func.getSenha());
+
+        if (acessoCPF && acessoSenha) {
+            String mensagem = "Login Realizado com sucesso";
+            System.out.println(mensagem);
+            acessoInternoFunc = true;
+            mv.setViewName("redirect:/interna-func");
+        } else {
+            String mensagem = "Login Não Efetuado";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "vermelho");
+            mv.setViewName("login-func");
+        }
     } else {
-        String mensagem = "Login Não Efetuado";
+        // Tratamento para CPF não cadastrado
+        String mensagem = "CPF não cadastrado ou dados incorretos";
         System.out.println(mensagem);
         mv.addObject("msg", mensagem);
         mv.addObject("classe", "vermelho");
-        mv.setViewName("login-adm");
+        mv.setViewName("login-func");
     }
+
     return mv;
 }
 
 
 
 @GetMapping("interna-func")
-public String acessoPageInternaAdm() {
+public String acessoPageInternaFunc() {
     ModelAndView mv = new ModelAndView();
     String acesso = "";
     if (acessoInternoFunc) {
@@ -81,4 +92,3 @@ public String acessoPageInternaAdm() {
     return acesso;
 }
 }
-
