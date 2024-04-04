@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import webapp.crud_escola.Model.Aluno;
 import webapp.crud_escola.Repository.AlunoRepository;
 import webapp.crud_escola.Repository.VerificaCadastroAlunoRepository;
@@ -35,31 +34,42 @@ public class AlunoController {
     return mv;
 }
 @PostMapping("acesso-aluno")
-public ModelAndView acessoAdmLogin(@RequestParam String cpf,
-        @RequestParam String senha) {
-    ModelAndView mv = new ModelAndView();// página interna de acesso
+public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam String senha) {
+    ModelAndView mv = new ModelAndView();
+    Aluno aluno = ar.findByCpf(cpf);
 
-    boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
-    boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
-    if(acessoCPF && acessoSenha){
-        String mensagem = "Login Realizado com sucesso";
-        System.out.println(mensagem);
-        acessoInternoAluno = true;
-        mv.setViewName("redirect:/interna-aluno");
+    if (aluno != null) {
+        boolean acessoCPF = cpf.equals(adm.getCpf());
+        boolean acessoSenha = senha.equals(adm.getSenha());
+
+        if (acessoCPF && acessoSenha) {
+            String mensagem = "Login Realizado com sucesso";
+            System.out.println(mensagem);
+            acessoInternoAluno = true;
+            mv.setViewName("redirect:/interna-aluno");
+        } else {
+            String mensagem = "Login Não Efetuado";
+            System.out.println(mensagem);
+            mv.addObject("msg", mensagem);
+            mv.addObject("classe", "vermelho");
+            mv.setViewName("login-aluno");
+        }
     } else {
-        String mensagem = "Login Não Efetuado";
+        // Tratamento para CPF não cadastrado
+        String mensagem = "CPF não cadastrado ou dados incorretos";
         System.out.println(mensagem);
         mv.addObject("msg", mensagem);
         mv.addObject("classe", "vermelho");
-        mv.setViewName("login-adm");
+        mv.setViewName("login-aluno");
     }
+
     return mv;
 }
 
 
 
 @GetMapping("interna-aluno")
-public String acessoPageInternaAdm() {
+public String acessoPageInternaAluno() {
     ModelAndView mv = new ModelAndView();
     String acesso = "";
     if (acessoInternoAluno) {
@@ -75,4 +85,3 @@ public String acessoPageInternaAdm() {
     return acesso;
 }
 }
-
