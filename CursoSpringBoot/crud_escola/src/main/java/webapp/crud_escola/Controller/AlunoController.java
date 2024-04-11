@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 import webapp.crud_escola.Model.Aluno;
 import webapp.crud_escola.Repository.AlunoRepository;
 import webapp.crud_escola.Repository.VerificaCadastroAlunoRepository;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AlunoController {
@@ -22,7 +23,7 @@ public class AlunoController {
 
     @PostMapping("cad-aluno")
     public ModelAndView postCadAluno (Aluno aluno) {
-       ModelAndView mv = new ModelAndView("login-aluno");
+       ModelAndView mv = new ModelAndView("aluno/login-aluno");
     boolean verificaCpf = vcar.existsById(aluno.getCpf());
 
     if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
@@ -32,56 +33,55 @@ public class AlunoController {
         mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
     }
     return mv;
-}
+} // No método de postagem
 @PostMapping("acesso-aluno")
-public ModelAndView acessoAlunoLogin(@RequestParam String cpf, @RequestParam String senha) {
-    ModelAndView mv = new ModelAndView();
-    Aluno aluno = ar.findByCpf(cpf);
+  public ModelAndView acessoAlunoLogin(@RequestParam String cpf,
+          @RequestParam String senha,
+          RedirectAttributes attributes) {
+      ModelAndView mv = new ModelAndView("redirect:/interna-aluno");// página interna de acesso
+      try {
+          // boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
+          boolean acessoCPF = ar.existsById(cpf);
+          boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
 
-    if (aluno != null) {
-        boolean acessoCPF = cpf.equals(aluno.getCpf());
-        boolean acessoSenha = senha.equals(aluno.getSenha());
+          if (acessoCPF && acessoSenha) {
+              String mensagem = "Login Realizado com sucesso";
+              System.out.println(mensagem);
+              acessoInternoAluno = true;
+              mv.addObject("msg", mensagem);
+              mv.addObject("classe", "verde");
+          } else {
+              String mensagem = "Login Não Efetuado";
+              System.out.println(mensagem);
+              attributes.addFlashAttribute("msg", mensagem);
+              attributes.addFlashAttribute("classe", "vermelho");
+              mv.setViewName("redirect:/login-aluno");
+          }
+          
+      } catch (Exception e) {
+          String mensagem = "Login Não Efetuado";
+          System.out.println(mensagem);
+          attributes.addFlashAttribute("msg", mensagem);
+          attributes.addFlashAttribute("classe", "vermelho");
+          mv.setViewName("redirect:/login-aluno");
+      }
+      return mv;
+  }
+  
 
-        if (acessoCPF && acessoSenha) {
-            String mensagem = "Login Realizado com sucesso";
-            System.out.println(mensagem);
-            acessoInternoAluno = true;
-            mv.setViewName("redirect:/interna-aluno");
-        } else {
-            String mensagem = "Login Não Efetuado";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-            mv.addObject("classe", "vermelho");
-            mv.setViewName("login-aluno");
-        }
-    } else {
-        // Tratamento para CPF não cadastrado
-        String mensagem = "CPF não cadastrado ou dados incorretos";
-        System.out.println(mensagem);
-        mv.addObject("msg", mensagem);
-        mv.addObject("classe", "vermelho");
-        mv.setViewName("login-aluno");
-    }
+  @GetMapping("/interna-aluno")
+  public ModelAndView acessoPageInternaAluno(RedirectAttributes attributes) {
+      ModelAndView mv = new ModelAndView("aluno/interna-aluno");
+      if (acessoInternoAluno) {
+          System.out.println("Acesso Permitido");
+      } else {
+          String mensagem = "Acesso não Permitido - faça Login";
+          System.out.println(mensagem);
+          mv.setViewName("redirect:/login-aluno");
+          attributes.addFlashAttribute("msg", mensagem);
+          attributes.addFlashAttribute("classe", "vermelho");
+      }
 
-    return mv;
-}
-
-
-
-@GetMapping("interna-aluno")
-public String acessoPageInternaAluno() {
-    ModelAndView mv = new ModelAndView();
-    String acesso = "";
-    if (acessoInternoAluno) {
-        acesso = "interna-aluno";
-    } else {
-        acesso = "login-aluno";
-        String mensagem = "Acesso não Permitido - faça Login";
-        System.out.println(mensagem);
-        mv.addObject("msg", mensagem);
-        mv.addObject("classe", "vermelho");
-    }
-
-    return acesso;
-}
+      return mv;
+  }
 }

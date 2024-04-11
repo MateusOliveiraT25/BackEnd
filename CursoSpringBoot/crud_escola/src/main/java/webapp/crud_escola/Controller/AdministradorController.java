@@ -3,8 +3,6 @@ package webapp.crud_escola.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import webapp.crud_escola.Model.Administrador;
 import webapp.crud_escola.Repository.AdministradorRepository;
@@ -14,19 +12,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdministradorController {
+      // atributos
+      boolean acessoInternoAdm = false;
     @Autowired
     private AdministradorRepository ar ;
     @Autowired
     private VerificaCadastroAdmRepository vcar;
 
 
-    @PostMapping("cad-adm")
+    @PostMapping("/cad-adm")
     public ModelAndView postCadAdm(Administrador adm) {
-        ModelAndView mv = new ModelAndView("login-adm");
+        ModelAndView mv = new ModelAndView("adm/login-adm");
         boolean verificaCpf = vcar.existsById(adm.getCpf());
 
         if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
@@ -38,71 +38,64 @@ public class AdministradorController {
         return mv;
     }
 
-    @PostMapping("acesso-adm")
-    public ModelAndView acessoAdmLogin(@RequestParam String cpf, @RequestParam String senha, HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView();
-        Administrador adm = ar.findByCpf(cpf);
-
-        if (adm != null) {
-            boolean acessoCPF = cpf.equals(adm.getCpf());
-            boolean acessoSenha = senha.equals(adm.getSenha());
+    // No método de postagem
+  @PostMapping("/acesso-adm")
+    public ModelAndView acessoAdmLogin(@RequestParam String cpf,
+            @RequestParam String senha,
+            RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("redirect:/interna-adm");// página interna de acesso
+        try {
+            // boolean acessoCPF = cpf.equals(ar.findByCpf(cpf).getCpf());
+            boolean acessoCPF = ar.existsById(cpf);
+            boolean acessoSenha = senha.equals(ar.findByCpf(cpf).getSenha());
 
             if (acessoCPF && acessoSenha) {
                 String mensagem = "Login Realizado com sucesso";
                 System.out.println(mensagem);
-
-                // Adicionar usuário à sessão
-                HttpSession session = request.getSession();
-                session.setAttribute("usuario_id", adm.getCpf());
-                session.setAttribute("usuario_nome", adm.getNome());
-
-                mv.setViewName("redirect:/interna-adm");
+                acessoInternoAdm = true;
+                mv.addObject("msg", mensagem);
+                mv.addObject("classe", "verde");
             } else {
                 String mensagem = "Login Não Efetuado";
                 System.out.println(mensagem);
-                mv.addObject("msg", mensagem);
-                mv.addObject("classe", "vermelho");
-                mv.setViewName("login-adm");
+                attributes.addFlashAttribute("msg", mensagem);
+                attributes.addFlashAttribute("classe", "vermelho");
+                mv.setViewName("redirect:/login-adm");
             }
-        } else {
-            // Tratamento para CPF não cadastrado
-            String mensagem = "CPF não cadastrado ou dados incorretos";
+            
+        } catch (Exception e) {
+            String mensagem = "Login Não Efetuado";
             System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-            mv.addObject("classe", "vermelho");
-            mv.setViewName("login-adm");
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
+            mv.setViewName("redirect:/login-adm");
+        }
+        return mv;
+    }
+    
+
+    @GetMapping("/interna-adm")
+    public ModelAndView acessoPageInternaAdm(RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("adm/interna-adm");
+        if (acessoInternoAdm) {
+            System.out.println("Acesso Permitido");
+        } else {
+            String mensagem = "Acesso não Permitido - faça Login";
+            System.out.println(mensagem);
+            mv.setViewName("redirect:/login-adm");
+            attributes.addFlashAttribute("msg", mensagem);
+            attributes.addFlashAttribute("classe", "vermelho");
         }
 
         return mv;
     }
 
-    @GetMapping("interna-adm")
-    public String acessoPageInternaAdm(HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView();
-        HttpSession session = request.getSession();
-        boolean acessoInternoAdm = session.getAttribute("usuario_id") != null;
-
-        String acesso = "";
-        if (acessoInternoAdm) {
-            acesso = "interna-adm";
-        } else {
-            acesso = "login-adm";
-            String mensagem = "Acesso não Permitido - faça Login";
-            System.out.println(mensagem);
-            mv.addObject("msg", mensagem);
-            mv.addObject("classe", "vermelho");
-        }
-
-        return acesso;
-    }
-
-    @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate(); // Invalida a sessão atual
-        }
-        return "redirect:/login-adm"; // Redireciona para a página de login
+    @PostMapping("logout-adm")
+    public ModelAndView logoutAdm(RedirectAttributes attributes) {
+        ModelAndView mv = new ModelAndView("redirect:/login-adm");
+        attributes.addFlashAttribute("msg", "Logout Efetuado");
+        attributes.addFlashAttribute("classe", "verde");
+        acessoInternoAdm = false;
+        return mv;
     }
 }
-
