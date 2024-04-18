@@ -16,7 +16,7 @@
     <div th:insert="~{fragments/header :: header}"><!-- barra de menu --></div>
     <div class="container">
         <h1>Cadastro Alunos</h1>
-        <form  method="POST">
+        <form method="POST">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
@@ -33,6 +33,13 @@
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
+            <div class="mb-3">
+                <label for="disciplina" class="form-label">Disciplina:</label>
+                <select class="form-select" id="disciplina" name="disciplina" required>
+                    <option value="">Selecione a disciplina</option>
+                    <option th:each="disciplina : ${professor.disciplinas}" th:value="${disciplina.nome}" th:text="${disciplina.nome}"></option>
+                </select>
+            </div>
             <div class="d-grid">
                 <button type="submit" class="btn-cadastrar">Cadastrar</button>
         </form>
@@ -40,3 +47,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
