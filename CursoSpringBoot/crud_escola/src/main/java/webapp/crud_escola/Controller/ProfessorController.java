@@ -32,40 +32,28 @@ public class ProfessorController {
 
 @PostMapping("/cad-prof")
 public ModelAndView postCadProf(Professor prof) {
-    ModelAndView mv = new ModelAndView("adm/controle-disciplinas-prof");
+    ModelAndView mv = new ModelAndView("adm/interna-adm");
+
+    // Verifica se o CPF já está cadastrado
     boolean verificaCpf = vcar.existsById(prof.getCpf());
 
-    if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
+    // Verifica se a disciplina está preenchida
+    boolean disciplinaPreenchida = prof.getDisciplina() != null && !prof.getDisciplina().isEmpty();
+
+    if (!verificaCpf && disciplinaPreenchida) { // Se o CPF não existe e a disciplina está preenchida, procede com o cadastro
         ar.save(prof);
         mv.addObject("msg", "Cadastro Realizado com sucesso");
-
-        // Atualiza a lista de professores antes de redirecionar
-        List<Professor> professores = (List<Professor>) ar.findAll();
-        mv.addObject("professores", professores);
     } else {
-        mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
+        if (verificaCpf) {
+            mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
+        } else {
+            mv.addObject("msg", "Cadastro não realizado. Disciplina não informada.");
+        }
     }
 
     return mv;
 }
 
-@PostMapping("/associar-disciplina-professor")
-public ModelAndView associarDisciplinaProfessor(@RequestParam String cpfProfessor, @RequestParam Long idDisciplina) {
-    // Buscar o professor e a disciplina no banco de dados
-    Professor professor = ar.findByCpf(cpfProfessor);
-    Disciplina disciplina = dr.findById(idDisciplina).orElse(null);
-
-    // Associar a disciplina ao professor
-    if (professor != null && disciplina != null) {
-        List<Disciplina> disciplinasProfessor = professor.getDisciplinas();
-        disciplinasProfessor.add(disciplina);
-        professor.setDisciplinas(disciplinasProfessor);
-        ar.save(professor);
-        return new ModelAndView("redirect:/interna-prof").addObject("msg", "Disciplina associada com sucesso");
-    } else {
-        return new ModelAndView("redirect:/interna-prof").addObject("msg", "Erro ao associar disciplina");
-    }
-}
 
 
 @PostMapping("acesso-prof")
