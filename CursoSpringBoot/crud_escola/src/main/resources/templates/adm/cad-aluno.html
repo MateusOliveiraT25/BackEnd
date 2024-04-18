@@ -33,13 +33,13 @@
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
-            <div class="mb-3">
-                <label for="disciplina" class="form-label">Disciplina:</label>
-                <select class="form-select" id="disciplina" name="disciplina" required>
-                    <option value="">Selecione a disciplina</option>
+          <div class="mb-3">
+          <label for="disciplinas" class="form-label">Disciplinas:</label>
+<select multiple class="form-select" id="disciplinas" name="disciplinas" required>
+                    <option value="">Selecione a disciplinas</option>
                     <option th:each="disciplina : ${professor.disciplinas}" th:value="${disciplina.nome}" th:text="${disciplina.nome}"></option>
                 </select>
-            </div>
+            </div> 
             <div class="d-grid">
                 <button type="submit" class="btn-cadastrar">Cadastrar</button>
         </form>
