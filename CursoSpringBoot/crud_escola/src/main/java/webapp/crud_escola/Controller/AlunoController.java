@@ -29,8 +29,7 @@ public ModelAndView postCadAluno(Aluno aluno) {
     boolean verificaCpf = vcar.existsById(aluno.getCpf());
 
     if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
-        // Aqui, você pode buscar o professor associado à disciplina do aluno
-        // Supondo que você tenha uma referência ao repositório do Professor
+        // Busca os professores associados à disciplina do aluno
         List<Professor> professores = professorRepository.findByDisciplinasNome(aluno.getDisciplina());
 
         if (!professores.isEmpty()) { // Se encontrar professores com a disciplina
@@ -48,6 +47,7 @@ public ModelAndView postCadAluno(Aluno aluno) {
 
     return mv;
 }
+
 
     
     
