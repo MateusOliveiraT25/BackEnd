@@ -29,12 +29,7 @@ public class indexController {
          ModelAndView mv = new ModelAndView("adm/login-adm");
          return mv;
      }
-     @GetMapping("/cadastro-docente")
-     public ModelAndView cadDocente() {
-         ModelAndView mv = new ModelAndView("adm/cadastro-docente");
-         return mv;
-     }
-
+     
 
      @GetMapping("/cad-adm")
      public ModelAndView cadAdm() {
@@ -42,7 +37,7 @@ public class indexController {
          return mv;
      }
      
-     @GetMapping("login-prof")
+     @GetMapping("/login-prof")
      public ModelAndView abrirLoginProfessor() {
          ModelAndView mv = new ModelAndView("prof/login-prof");
          return mv;
@@ -50,10 +45,10 @@ public class indexController {
 
      @GetMapping("/cad-prof")
      public ModelAndView cadProfessor() {
-         ModelAndView mv = new ModelAndView("prof/cad-prof");
+         ModelAndView mv = new ModelAndView("adm/cad-prof");
          return mv;
      }
-
+     
      @GetMapping("/login-func")
      public ModelAndView abrirLoginFuncionario() {
          ModelAndView mv = new ModelAndView("func/login-func");
@@ -62,7 +57,7 @@ public class indexController {
 
      @GetMapping("/cad-func")
      public ModelAndView cadFuncionario() {
-         ModelAndView mv = new ModelAndView("func/cad-func");
+         ModelAndView mv = new ModelAndView("adm/cad-func");
          return mv;
      }
 
@@ -72,9 +67,20 @@ public class indexController {
          return mv;
      }
 
-     @GetMapping("/cad-aluno")
+     @GetMapping("cad-aluno")
      public ModelAndView cadAluno() {
-         ModelAndView mv = new ModelAndView("aluno/cad-aluno");
+         ModelAndView mv = new ModelAndView("adm/cad-aluno");
+         return mv;
+     }
+
+     @GetMapping("controle-disciplinas-aluno")
+     public ModelAndView controleDisciplinasAluno() {
+         ModelAndView mv = new ModelAndView("adm/controle-disciplinas-aluno");
+         return mv;
+     }
+     @GetMapping("controle-disciplinas-prof")
+     public ModelAndView controleDisciplinasProf() {
+         ModelAndView mv = new ModelAndView("adm/controle-disciplinas-prof");
          return mv;
      }
     }

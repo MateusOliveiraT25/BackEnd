@@ -1,12 +1,20 @@
 package webapp.crud_escola.Controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 
 import webapp.crud_escola.Model.Administrador;
+import webapp.crud_escola.Model.Disciplina;
+import webapp.crud_escola.Model.Professor;
 import webapp.crud_escola.Repository.AdministradorRepository;
+import webapp.crud_escola.Repository.DisciplinaRepository;
+import webapp.crud_escola.Repository.ProfessorRepository;
 import webapp.crud_escola.Repository.VerificaCadastroAdmRepository;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +30,6 @@ public class AdministradorController {
     private AdministradorRepository ar ;
     @Autowired
     private VerificaCadastroAdmRepository vcar;
-
 
     @PostMapping("/cad-adm")
     public ModelAndView postCadAdm(Administrador adm) {
@@ -98,4 +105,9 @@ public class AdministradorController {
         acessoInternoAdm = false;
         return mv;
     }
+
+
+
+    
+
 }

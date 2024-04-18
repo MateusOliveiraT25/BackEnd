@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import webapp.crud_escola.Model.Professor;
 import webapp.crud_escola.Repository.ProfessorRepository;
 import webapp.crud_escola.Repository.VerificaCadastroProfessorRepository;
+import java.util.List;
 
 
 
@@ -22,20 +23,26 @@ public class ProfessorController {
     @Autowired
     private VerificaCadastroProfessorRepository vcar;
 
-    @PostMapping("/cad-prof")
-     public ModelAndView postCadProf (Professor prof) {
-       ModelAndView mv = new ModelAndView("prof/login-prof");
+@PostMapping("/cad-prof")
+public ModelAndView postCadProf(Professor prof) {
+    ModelAndView mv = new ModelAndView("adm/controle-disciplinas-prof");
     boolean verificaCpf = vcar.existsById(prof.getCpf());
 
     if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
         ar.save(prof);
         mv.addObject("msg", "Cadastro Realizado com sucesso");
+
+        // Atualiza a lista de professores antes de redirecionar
+        List<Professor> professores = (List<Professor>) ar.findAll();
+        mv.addObject("professores", professores);
     } else {
         mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
     }
+
     return mv;
 }
-    
+
+
 
 
 @PostMapping("acesso-prof")
@@ -88,5 +95,9 @@ public class ProfessorController {
 
       return mv;
   }
+
+
+
+
 }
 

@@ -13,10 +13,11 @@
 <body>
     <div th:insert="~{fragments/header :: header}"><!-- barra de menu --></div>
     <div class="container">
-        <h2>Pagina Adm</h2>
-        <a href="matricula-aluno" class="link">Matrícula do Aluno</a><br>
-        <a href="cadastro-docente" class="link">Cadastro do Docente</a><br>
-        <a href="controle-disciplinas" class="link">Controle das Disciplinas</a><br>
+        <h2>Administrador</h2>
+        <a href="cad-aluno" class="link">Matrícula do Aluno</a><br>
+        <a href="cad-prof" class="link">Cadastro do Docente</a><br>
+        <a href="controle-disciplinas-prof" class="link">Controle das Disciplinas Professor</a><br>
+        <a href="controle-disciplinas-aluno" class="link">Controle das Disciplinas Aluno</a><br>
         <!-- Botão de Logout -->
         <form action="/logout-adm" method="post">
             <button type="submit" class="btn-logout">Sair</button>
