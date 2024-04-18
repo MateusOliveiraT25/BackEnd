@@ -41,8 +41,16 @@ public ModelAndView postCadProf(Professor prof) {
     boolean disciplinaPreenchida = prof.getDisciplina() != null && !prof.getDisciplina().isEmpty();
 
     if (!verificaCpf && disciplinaPreenchida) { // Se o CPF não existe e a disciplina está preenchida, procede com o cadastro
-        ar.save(prof);
-        mv.addObject("msg", "Cadastro Realizado com sucesso");
+        // Busca a disciplina no repositório
+        Disciplina disciplina = disciplinaRepository.findByNome(prof.getDisciplina());
+
+        if (disciplina != null) { // Se a disciplina existe, associa ao professor e salva
+            prof.setDisciplina(disciplina);
+            ar.save(prof);
+            mv.addObject("msg", "Cadastro Realizado com sucesso");
+        } else {
+            mv.addObject("msg", "Cadastro não realizado. Disciplina não encontrada.");
+        }
     } else {
         if (verificaCpf) {
             mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
