@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import webapp.crud_escola.Model.Disciplina;
 import webapp.crud_escola.Model.Professor;
+import webapp.crud_escola.Repository.DisciplinaRepository;
 import webapp.crud_escola.Repository.ProfessorRepository;
 import webapp.crud_escola.Repository.VerificaCadastroProfessorRepository;
 import java.util.List;
@@ -19,6 +22,10 @@ public class ProfessorController {
     boolean acessoInternoProf = false;
     @Autowired
     private ProfessorRepository ar ;
+
+    @Autowired
+    private DisciplinaRepository dr ;
+
 
     @Autowired
     private VerificaCadastroProfessorRepository vcar;
@@ -42,7 +49,23 @@ public ModelAndView postCadProf(Professor prof) {
     return mv;
 }
 
+@PostMapping("/associar-disciplina-professor")
+public ModelAndView associarDisciplinaProfessor(@RequestParam String cpfProfessor, @RequestParam Long idDisciplina) {
+    // Buscar o professor e a disciplina no banco de dados
+    Professor professor = ar.findByCpf(cpfProfessor);
+    Disciplina disciplina = dr.findById(idDisciplina).orElse(null);
 
+    // Associar a disciplina ao professor
+    if (professor != null && disciplina != null) {
+        List<Disciplina> disciplinasProfessor = professor.getDisciplinas();
+        disciplinasProfessor.add(disciplina);
+        professor.setDisciplinas(disciplinasProfessor);
+        ar.save(professor);
+        return new ModelAndView("redirect:/interna-prof").addObject("msg", "Disciplina associada com sucesso");
+    } else {
+        return new ModelAndView("redirect:/interna-prof").addObject("msg", "Erro ao associar disciplina");
+    }
+}
 
 
 @PostMapping("acesso-prof")
