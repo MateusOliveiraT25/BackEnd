@@ -21,19 +21,37 @@ public class AlunoController {
     @Autowired
     private VerificaCadastroAlunoRepository vcar;
 
-    @PostMapping("cad-aluno")
-    public ModelAndView postCadAluno (Aluno aluno) {
-       ModelAndView mv = new ModelAndView("aluno/login-aluno");
+@PostMapping("cad-aluno")
+public ModelAndView postCadAluno(Aluno aluno) {
+    ModelAndView mv = new ModelAndView("aluno/login-aluno");
+
+    // Verifica se o CPF do aluno já está cadastrado
     boolean verificaCpf = vcar.existsById(aluno.getCpf());
 
     if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
-        ar.save(aluno);
-        mv.addObject("msg", "Cadastro Realizado com sucesso");
+        // Aqui, você pode buscar o professor associado à disciplina do aluno
+        // Supondo que você tenha uma referência ao repositório do Professor
+        List<Professor> professores = professorRepository.findByDisciplinasNome(aluno.getDisciplina());
+
+        if (!professores.isEmpty()) { // Se encontrar professores com a disciplina
+            // Por simplicidade, aqui assumimos que o aluno será associado ao primeiro professor encontrado
+            Professor professor = professores.get(0);
+            aluno.setProfessor(professor);
+            ar.save(aluno);
+            mv.addObject("msg", "Cadastro realizado com sucesso");
+        } else {
+            mv.addObject("msg", "Cadastro não realizado. Disciplina sem professor associado.");
+        }
     } else {
         mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
     }
+
     return mv;
-} // No método de postagem
+}
+
+    
+    
+    // No método de postagem
 @PostMapping("acesso-aluno")
   public ModelAndView acessoAlunoLogin(@RequestParam String cpf,
           @RequestParam String senha,
