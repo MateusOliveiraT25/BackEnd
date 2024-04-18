@@ -24,31 +24,4 @@ public class DisciplinaController {
     @Autowired
     private ProfessorRepository professorRepository;
 
-    @GetMapping("/cadastro-disciplina")
-public ModelAndView exibirFormularioCadastro() {
-    ModelAndView mv = new ModelAndView("disciplina");
-    Iterable<Professor> professoresIterable = professorRepository.findAll();
-    List<Professor> professores = new ArrayList<>();
-    professoresIterable.forEach(professores::add);
-    mv.addObject("professores", professores);
-    return mv;
-}
-
-@PostMapping("/cadastrar-disciplina")
-public ModelAndView cadastrarDisciplina(@RequestParam String nome, @RequestParam String professorCpf) {
-    ModelAndView mv = new ModelAndView("redirect:/cadastro-disciplina");
-    Professor professor = professorRepository.findByCpf(professorCpf);
-    if (professor != null) {
-        Disciplina disciplina = new Disciplina();
-        disciplina.setNome(nome);
-        disciplina.setProfessores(new ArrayList<>()); // Inicializa a lista de professores
-        disciplina.getProfessores().add(professor);
-        disciplinaRepository.save(disciplina);
-        mv.addObject("msg", "Disciplina cadastrada com sucesso!");
-    } else {
-        mv.addObject("msg", "Professor não encontrado. Cadastre o professor antes de associá-lo à disciplina.");
-    }
-    return mv;
-}
-
-}
+  }
