@@ -1,7 +1,7 @@
 package webapp.crud_escola.Model;
-
+import java.util.List;
 import java.io.Serializable;
-
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -12,7 +12,11 @@ public class Professor implements Serializable {
     private String nome;
     private String email;
     private String senha;
-    private String disciplina;
+
+    @ManyToMany
+    private List<Disciplina> disciplinas;
+
+    // Getters e Setters
 
     public String getCpf() {
         return cpf;
@@ -46,12 +50,11 @@ public class Professor implements Serializable {
         this.senha = senha;
     }
 
-    public String getDisciplina() {
-        return disciplina;
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
     }
 
-    public void setDisciplina(String disciplina) {
-        this.disciplina = disciplina;
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
     }
-
 }

@@ -19,6 +19,7 @@ public class Aluno implements Serializable {
     private List<Disciplina> disciplinas;
 
     // Getters e Setters
+
     public String getCpf() {
         return cpf;
     }

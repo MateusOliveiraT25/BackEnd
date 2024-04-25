@@ -14,6 +14,9 @@
     <div th:insert="~{fragments/header :: header}"><!-- barra de menu --></div>
     <div class="container">
         <h2>Administrador</h2>
+   <!-- Área de mensagem dinâmica -->
+   <div th:if="${msg}" th:class="${classe == 'vermelho' ? 'alert alert-danger' : 'alert alert-success'}" th:text="${msg}"></div>
+
         <a href="cad-aluno" class="link">Matrícula do Aluno</a><br>
         <a href="cad-prof" class="link">Cadastro do Docente</a><br>
         <a href="controle-disciplinas-prof" class="link">Controle das Disciplinas Professor</a><br>

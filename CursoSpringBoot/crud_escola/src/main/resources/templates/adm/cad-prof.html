@@ -9,14 +9,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" th:href="@{styleCadastro.css}">
     <link rel="stylesheet" th:href="@{style.css}">
-    
-  
 </head>
+
+
 <body>
     <div th:insert="~{fragments/header :: header}"><!-- barra de menu --></div>
     <div class="container">
         <h1>Cadastro Professores</h1>
-        <form  method="POST">
+
+
+        <form method="POST">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
@@ -26,32 +28,17 @@
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="mb-3">
-                <label for="CPF" class="form-label">CPF:</label>
-                <input type="CPF" class="form-control" id="CPF" name="cpf" required>
+                <label for="cpf" class="form-label">CPF:</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" required>
             </div>
-                 <div class="mb-3">
-    <label for="disciplina" class="form-label">Disciplina:</label>
-    <select class="form-select" id="disciplina" name="disciplina" required>
-        <option value="">Selecione uma disciplina</option>
-        <option value="Matemática">Matemática</option>
-        <option value="Português">Português</option>
-        <option value="História">História</option>
-        <option value="Geografia">Geografia</option>
-        <option value="Ciências">Ciências</option>
-        <option value="Física">Física</option>
-        <option value="Química">Química</option>
-        <option value="Biologia">Biologia</option>
-        <option value="Inglês">Inglês</option>
-        <option value="Educação Física">Educação Física</option>
-    </select>
-</div>
-     
             <div class="mb-3">
                 <label for="senha" class="form-label">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
+          
             <div class="d-grid">
                 <button type="submit" class="btn-cadastrar">Cadastrar</button>
+            </div>
         </form>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

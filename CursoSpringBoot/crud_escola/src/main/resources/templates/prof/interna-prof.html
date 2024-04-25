@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sucesso</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Página Interna do Professor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/styleInterno.css}">
+    <link rel="stylesheet" th:href="@{style.css}">
 </head>
 <body>
     <div class="container">
-        <div class="alert alert-success" role="alert">
-            Login realizado com sucesso!
-        </div>
+        <h1>Bem-vindo à Página Interna</h1>
+        <p>Aqui você pode acessar diversas funcionalidades, incluindo o lançamento de notas:</p>
+        <ul>
+            <li><a href="/disciplina/{id}/alunos/lancar-notas">Lançar Notas</a></li>
+            <!-- Outros links ou funcionalidades aqui -->
+        </ul>
     </div>
-  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </html>

@@ -30,38 +30,45 @@ public class ProfessorController {
     @Autowired
     private VerificaCadastroProfessorRepository vcar;
 
-@PostMapping("/cad-prof")
-public ModelAndView postCadProf(Professor prof) {
-    ModelAndView mv = new ModelAndView("adm/interna-adm");
-
-    // Verifica se o CPF já está cadastrado
-    boolean verificaCpf = vcar.existsById(prof.getCpf());
-
-    // Verifica se a disciplina está preenchida
-    boolean disciplinaPreenchida = prof.getDisciplina() != null && !prof.getDisciplina().isEmpty();
-
-    if (!verificaCpf && disciplinaPreenchida) { // Se o CPF não existe e a disciplina está preenchida, procede com o cadastro
-        // Busca a disciplina no repositório
-        Disciplina disciplina = disciplinaRepository.findByNome(prof.getDisciplina());
-
-        if (disciplina != null) { // Se a disciplina existe, associa ao professor e salva
-            prof.setDisciplina(disciplina);
+    @PostMapping("/cad-prof")
+    public ModelAndView postCadProf(Professor prof) {
+        boolean verificaCpf = vcar.existsById(prof.getCpf());
+        ModelAndView mv = new ModelAndView();
+    
+        if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
             ar.save(prof);
-            mv.addObject("msg", "Cadastro Realizado com sucesso");
+            mv.setViewName("adm/controle-disciplinas-prof");
+            mv.addObject("msg", "Cadastro realizado com sucesso");
+    
+            // Atualiza a lista de professores antes de redirecionar
+            List<Professor> professores = (List<Professor>) ar.findAll();
+            mv.addObject("professores", professores);
         } else {
-            mv.addObject("msg", "Cadastro não realizado. Disciplina não encontrada.");
-        }
-    } else {
-        if (verificaCpf) {
+            mv.setViewName("adm/interna-adm");
             mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
-        } else {
-            mv.addObject("msg", "Cadastro não realizado. Disciplina não informada.");
         }
+        return mv;
     }
+    
+    
 
-    return mv;
+@PostMapping("/controle-disciplinas-prof")
+public ModelAndView associarDisciplinaProfessor(@RequestParam String cpfProfessor, @RequestParam Long idDisciplina) {
+    // Buscar o professor e a disciplina no banco de dados
+    Professor professor = ar.findByCpf(cpfProfessor);
+    Disciplina disciplina = dr.findById(idDisciplina).orElse(null);
+
+    // Associar a disciplina ao professor
+    if (professor != null && disciplina != null) {
+        List<Disciplina> disciplinasProfessor = professor.getDisciplinas();
+        disciplinasProfessor.add(disciplina);
+        professor.setDisciplinas(disciplinasProfessor);
+        ar.save(professor);
+        return new ModelAndView("redirect:/interna-adm").addObject("msg", "Disciplina associada com sucesso");
+    } else {
+        return new ModelAndView("redirect:/interna-adm").addObject("msg", "Erro ao associar disciplina");
+    }
 }
-
 
 
 @PostMapping("acesso-prof")
