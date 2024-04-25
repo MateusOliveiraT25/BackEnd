@@ -25,15 +25,15 @@ public class DisciplinaController {
     private ProfessorRepository professorRepository;
 
     @GetMapping("/associar-disciplina-professor")
-public ModelAndView exibirFormularioCadastro() {
-    ModelAndView mv = new ModelAndView("disciplina");
-    Iterable<Professor> professoresIterable = professorRepository.findAll();
-    List<Professor> professores = new ArrayList<>();
-    professoresIterable.forEach(professores::add);
-    mv.addObject("professores", professores);
-    return mv;
-}
-
+    public ModelAndView exibirFormularioCadastro() {
+        ModelAndView mv = new ModelAndView("controle-disciplinas-prof");
+        Iterable<Professor> professores = professorRepository.findAll();
+        Iterable<Disciplina> disciplinas = disciplinaRepository.findAll(); // Supondo que você tenha um repository para disciplinas
+        mv.addObject("professores", professores);
+        mv.addObject("disciplinas", disciplinas); // Adiciona a lista de disciplinas ao ModelAndView
+        return mv;
+    }
+    
 @PostMapping("/cadastrar-disciplina")
 public ModelAndView cadastrarDisciplina(@RequestParam String nome, @RequestParam String professorCpf) {
     ModelAndView mv = new ModelAndView("redirect:/cadastro-disciplina");
