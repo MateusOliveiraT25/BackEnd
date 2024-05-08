@@ -16,7 +16,7 @@
     <div th:insert="~{fragments/header :: header}"><!-- barra de menu --></div>
    <div class="container">
         <h1>Cadastro de Professor</h1>
-        <form action="/cadastrar-professor" method="post">
+   <form action="/cad-prof" method="post">
             <div class="mb-3">
                 <label for="nome">Nome:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
@@ -29,14 +29,15 @@
                 <label for="email">E-mail:</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            <div class="mb-3">
-                <label for="disciplinas">Disciplinas:</label>
-                <select multiple class="form-select" id="disciplinas" name="disciplinas" required>
-                    <option th:each="disciplina : ${disciplinas}" th:value="${disciplina.nome}" th:text="${disciplina.nome}"></option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Cadastrar</button>
-        </form>
+         <div class="mb-3">
+        <label for="disciplina">Disciplina:</label>
+        <select class="form-select" id="disciplina" name="disciplina">
+            <option value="">Selecione...</option>
+            <option th:each="disciplina : ${disciplinas}" th:value="${disciplina.id}" th:text="${disciplina.nome}"></option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
     </div>
 </body>
 </html>
