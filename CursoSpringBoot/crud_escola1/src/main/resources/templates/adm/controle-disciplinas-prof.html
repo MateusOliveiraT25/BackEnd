@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Cabeçalho omitido para manter o foco no conteúdo -->
+</head>
+<body>
+    <div class="container">
+        <h1>Associação de Disciplina ao Professor</h1>
+        <form action="/cad-prof" method="post">
+            <div class="mb-3">
+                <label for="professor">Selecione o Professor:</label>
+                <select class="form-select" id="professor" name="cpfProfessor">
+                    <option value="">Selecione...</option>
+                    <!-- Iterando sobre a lista de professores -->
+                    <option th:each="professor : ${professores}" th:value="${professor.cpf}" th:text="${professor.nome}"></option>
+                </select>
+            </div>
+                    
+            <button type="submit" class="btn btn-primary" style="display: none;">Associar Disciplina ao Professor</button>
+        </form>
+    </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>Outro Formulário</h1> 
+        <form action="/associar-disciplina-professor" method="get">
+            <div class="mb-3">
+                <label for="disciplina">Selecione a Disciplina:</label>
+                <select class="form-select" id="disciplina" name="idDisciplina">
+                    <option value="">Selecione...</option>
+                    <option th:each="disciplina : ${disciplinas}" th:value="${disciplina.id}" th:text="${disciplina.nome}"></option>
+                    <option value="1">Matemática</option>
+                    <option value="2">Português</option>
+                    <option value="3">História</option>
+                    <option value="4">Geografia</option>
+                    <option value="5">Ciências</option>
+                    <option value="6">Inglês</option>
+                    <option value="7">Arte</option>
+                    <option value="8">Educação Física</option>
+                    <option value="9">Filosofia</option>
+                    <option value="10">Sociologia</option>
+                </select>
+            </div>
+                    
+            <button type="submit" class="btn btn-primary">Associar Disciplina ao Professor</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+ /* Estilos personalizados */
+ .btn-logout {
+    background-color: #dc3545; /* Cor vermelha do Bootstrap */
+    color: #fff; /* Cor do texto */
+    border: none; /* Sem borda */
+    padding: 0.5rem 1rem; /* Espaçamento interno */
+    cursor: pointer; /* Cursor de apontar */
+    transition: background-color 0.3s; /* Transição suave de cor de fundo */
+}
+
+.btn-logout:hover {
+    background-color: #c82333; /* Cor de fundo mais escura ao passar o mouse */
+}
