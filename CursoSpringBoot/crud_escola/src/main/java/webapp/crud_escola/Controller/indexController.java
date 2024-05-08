@@ -43,6 +43,12 @@ public class indexController {
          return mv;
      }
 
+     @GetMapping("/interna-lancar")
+     public ModelAndView internaLancar() {
+         ModelAndView mv = new ModelAndView("prof/interna-lancar");
+         return mv;
+     }
+
      @GetMapping("/cad-prof")
      public ModelAndView cadProfessor() {
          ModelAndView mv = new ModelAndView("adm/cad-prof");
