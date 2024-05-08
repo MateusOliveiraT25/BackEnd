@@ -30,26 +30,36 @@ public class ProfessorController {
     @Autowired
     private VerificaCadastroProfessorRepository vcar;
 
-    @PostMapping("/cad-prof")
-    public ModelAndView postCadProf(Professor prof) {
-        boolean verificaCpf = vcar.existsById(prof.getCpf());
-        ModelAndView mv = new ModelAndView();
-    
-        if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
-            ar.save(prof);
-            mv.setViewName("adm/controle-disciplinas-prof");
-            mv.addObject("msg", "Cadastro realizado com sucesso");
-    
-            // Atualiza a lista de professores antes de redirecionar
-            List<Professor> professores = (List<Professor>) ar.findAll();
-            mv.addObject("professores", professores);
-        } else {
-            mv.setViewName("adm/interna-adm");
-            mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
+  @PostMapping("/cad-prof")
+public ModelAndView postCadProf(Professor prof, @RequestParam Long disciplinaId) {
+    boolean verificaCpf = vcar.existsById(prof.getCpf());
+    ModelAndView mv = new ModelAndView();
+
+    if (!verificaCpf) { // Se o CPF não existe, procede com o cadastro
+        // Salva o professor
+        ar.save(prof);
+
+        // Associa a disciplina ao professor
+        Optional<Disciplina> disciplinaOptional = dr.findById(disciplinaId);
+        if (disciplinaOptional.isPresent()) {
+            Disciplina disciplina = disciplinaOptional.get();
+            disciplina.getProfessores().add(prof);
+            dr.save(disciplina);
         }
-        return mv;
+
+        mv.setViewName("adm/controle-disciplinas-prof");
+        mv.addObject("msg", "Cadastro realizado com sucesso");
+
+        // Atualiza a lista de professores antes de redirecionar
+        List<Professor> professores = (List<Professor>) ar.findAll();
+        mv.addObject("professores", professores);
+    } else {
+        mv.setViewName("adm/interna-adm");
+        mv.addObject("msg", "Cadastro não realizado. CPF já cadastrado.");
     }
-    
+    return mv;
+}
+
     
 
 @PostMapping("/controle-disciplinas-prof")
