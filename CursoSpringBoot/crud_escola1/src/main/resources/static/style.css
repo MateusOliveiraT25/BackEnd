@@ -1,0 +1,58 @@
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 90%; /* Ajuste de largura do container */
+    margin: 0 auto;
+}
+
+header {
+    background-color: #09a0bb; /* Cor azul */
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center; /* Centralizar o texto */
+}
+
+header h1 {
+    font-size: 32px; /* Ajuste de tamanho do texto */
+    margin-bottom: 10px; /* Espaço entre o texto e a barra de navegação */
+}
+
+nav {
+    float: none; /* Remover flutuação */
+    display: flex;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #ffc107; /* Cor amarela */
+}
+
+/* Ícones */
+nav ul li a i {
+    margin-right: 5px;
+}
