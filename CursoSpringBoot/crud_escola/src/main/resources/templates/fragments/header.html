@@ -1,13 +1,12 @@
 <header th:fragment="header">
     <div class="container">
-        <h1>Escola B</h1>
+        <h1>Escola Brazuka</h1>
         <nav>
             <ul>
                 <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="/login-aluno"><i class="fas fa-user-graduate"></i> Alunos</a></li>
                 <li><a href="/login-prof"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
                 <li><a href="/login-adm"><i class="fas fa-user-tie"></i> Administradores</a></li>
-                <li><a href="/login-func"><i class="fas fa-users"></i> Funcionários</a></li>
                 <li><a href="/contato"><i class="fas fa-envelope"></i> Contato</a></li>
                 <li th:if="${session.usuario_id != null}"><span th:text="${session.usuario_nome}"></span></li>
                 <li th:if="${session.usuario_id != null}"><a href="/logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
