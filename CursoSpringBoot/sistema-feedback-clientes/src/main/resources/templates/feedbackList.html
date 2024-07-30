@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Feedbacks</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Lista de Feedbacks</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Comentário</th>
+                <th>Classificação</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="feedback : ${feedbacks}">
+                <td th:text="${feedback.customerName}"></td>
+                <td th:text="${feedback.comment}"></td>
+                <td th:text="${feedback.rating}"></td>
+                <td th:text="${feedback.submittedAt}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/">Enviar Novo Feedback</a>
+</body>
+</html>
