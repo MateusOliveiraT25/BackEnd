@@ -40,9 +40,9 @@ public class ContactController {
         contactMessage.setSubmittedAt(LocalDateTime.now());
         contactMessageRepository.save(contactMessage);
 
-        // Enviar email
+        // Enviar e-mail
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo("suporte@example.com");
+        mailMessage.setTo("contato3025@gmail.com"); // E-mail para o qual as mensagens serão enviadas
         mailMessage.setSubject("Nova mensagem de contato");
         mailMessage.setText("Nome: " + name + "\nEmail: " + email + "\nMensagem: " + message);
         mailSender.send(mailMessage);
