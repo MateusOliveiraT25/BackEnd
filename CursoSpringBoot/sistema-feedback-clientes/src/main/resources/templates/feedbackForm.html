@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Enviar Feedback</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>Enviar Feedback</h1>
+    <form th:action="@{/submitFeedback}" th:object="${feedback}" method="post">
+        <label for="customerName">Nome:</label>
+        <input type="text" id="customerName" th:field="*{customerName}" required>
+        
+        <label for="comment">Comentário:</label>
+        <textarea id="comment" th:field="*{comment}" required></textarea>
+        
+        <label for="rating">Classificação (1-5):</label>
+        <input type="number" id="rating" th:field="*{rating}" min="1" max="5" required>
+        
+        <button type="submit">Enviar</button>
+    </form>
+    <a href="/feedbacks">Ver Feedbacks</a>
+</body>
+</html>
