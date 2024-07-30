@@ -66,3 +66,36 @@ button:hover {
     text-align: center;
     font-weight: bold;
 }
+
+/* Estilos para o componente de estrelas */
+.star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #ccc;
+    margin-top: 10px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #f39c12;
+    cursor: pointer;
+}
+
+.star-rating input:checked ~ label {
+    color: #f39c12;
+}
+
+.star-rating input:checked ~ input:checked ~ label {
+    color: #f39c12;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #f39c12;
+}
+
